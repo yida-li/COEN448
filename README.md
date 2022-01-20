@@ -1,5 +1,5 @@
 # COEN 448
-COEN/ELEC 490 Software Testing and Validation 
+COEN 448 Software Testing and Validation 
 Robot Motion Project - Winter 2022
 
 ## Objective
