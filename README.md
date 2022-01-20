@@ -21,9 +21,10 @@ We will construct a basic program for a robot walking around a room under the co
   - Java
   
 - Technology:
-  - InteliJ
+  - IntelliJ
   - JUnit
+  - Maven
   - Discord
-  - Trellon
+  - Trello
   - Github
   - Google Drive
