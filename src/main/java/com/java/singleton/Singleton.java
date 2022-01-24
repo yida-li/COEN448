@@ -3,7 +3,7 @@ package main.java.com.java.singleton;
 import java.awt.*;
 
 public class Singleton {
-    private static Singleton robot = null;
+    private static Singleton robot;
     private boolean penState;
     private Point coordinates;
 
