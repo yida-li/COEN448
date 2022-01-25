@@ -1,6 +1,6 @@
-package test.singleton;
+package singleton;
 
-import main.java.com.java.singleton.Singleton;
+import com.java.singleton.Singleton;
 import java.awt.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

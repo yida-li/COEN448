@@ -1,4 +1,4 @@
-package main.java.com.java.singleton;
+package com.java.singleton;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
-package main.java.com.java.main;
+package com.java.main;
 
-import main.java.com.java.singleton.Singleton;
+import com.java.singleton.Singleton;
 
 public class Main {
     public static void main(String[] args){
