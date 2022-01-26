@@ -141,3 +141,5 @@ fabric.properties
 
 /.idea/*
 !/.idea/runConfigurations
+
+Coverage/
