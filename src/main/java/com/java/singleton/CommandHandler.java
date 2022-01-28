@@ -1,5 +1,6 @@
 package com.java.singleton;
 
+import java.awt.*;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -10,6 +11,7 @@ public class CommandHandler {
     private static final Scanner sc = new Scanner(System.in);
     private static Table table;
     private static boolean initialized = false;
+    private static Singleton robot;
 
     public CommandHandler(){}
 
@@ -51,7 +53,6 @@ public class CommandHandler {
                 } else {
                     val = "I";
                 }
-                System.out.println("val is:" + val);
             } else if(val.charAt(0) == 'M' || val.charAt(0) == 'm') {
                 number = intValueGiven(val);
                 if(number <=0) {
@@ -174,41 +175,77 @@ public class CommandHandler {
 
     private static void printPosition() {
         System.out.println("Printing position...");
+        Point position = robot.getCoordinates();
+        int x = position.x;
+        int y = position.y;
+        boolean upDown = robot.getPenState();
+        String pen;
+        if (upDown)
+            pen = "down";
+        else
+            pen = "up";
 
+        String direction = robot.getDirection();
+        System.out.println("Position: " + x + ", " + y + " - Pen: " + pen + " - Facing: " + direction);
     }
 
     private static void printTable() {
         System.out.println("Printing table...");
-
         table.printTable();
-
     }
 
     private static void moveRobot(int spaces) {
         System.out.println("Moving...");
+        //todo: move the robot, make sure it is not going out of the table,
+        // print to the table if the pen is down (true)
+        // set new coordinates of the robot
     }
 
     private static void turnLeft() {
         System.out.println("Turning left...");
+        String currentDirection = robot.getDirection();
+
+        if(currentDirection.equals("north")){
+            robot.setDirectionWest();
+        }else if(currentDirection.equals("south")){
+            robot.setDirectionEast();
+        }else if(currentDirection.equals("east")){
+            robot.setDirectionNorth();
+        }else if(currentDirection.equals("west")){
+            robot.setDirectionSouth();
+        }
     }
 
     private static void turnRight() {
         System.out.println("Turning right...");
+        String currentDirection = robot.getDirection();
 
+        if(currentDirection.equals("north")){
+            robot.setDirectionEast();
+        }else if(currentDirection.equals("south")){
+            robot.setDirectionWest();
+        }else if(currentDirection.equals("east")){
+            robot.setDirectionSouth();
+        }else if(currentDirection.equals("west")){
+            robot.setDirectionNorth();
+        }
     }
 
     private static void penDown() {
         System.out.println("Pen direction going down...");
-
+        robot.setPenState(true);
     }
 
     private static void penUp() {
         System.out.println("Pen direction going up...");
+        robot.setPenState(false);
     }
 
     private static void initializeSystem(int size) {
         System.out.println("Initializing with size: " + size);
         table = new Table(size,size);
+        robot = Singleton.getInstance();
         initialized = true;
+
     }
 }

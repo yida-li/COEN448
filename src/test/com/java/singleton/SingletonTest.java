@@ -1,4 +1,4 @@
-package singleton;
+package com.java.singleton;
 
 import com.java.singleton.Singleton;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class SingletonTest {
 
     @Test
     void testGetPenState(){
-        assertEquals(false, robot.getPenState());
+        assertEquals(true, robot.getPenState());
     }
 
     @Test

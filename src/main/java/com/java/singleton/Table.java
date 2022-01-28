@@ -1,7 +1,6 @@
 package com.java.singleton;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class Table {
     private int width;
