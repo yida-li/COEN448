@@ -10,8 +10,8 @@ public class Singleton {
 
     public Singleton(){
         this.penState = false;
-        coordinates = new Point(0,0);
-        direction = "north";
+        this.coordinates = new Point(0,0);
+        this.direction = "north";
     }
 
     public static Singleton getInstance(){
@@ -54,5 +54,11 @@ public class Singleton {
 
     public void setCoordinates(Point p){
         this.coordinates = p;
+    }
+
+    public void reinitialize(){
+        this.penState = false;
+        this.coordinates = new Point(0,0);
+        this.direction = "north";
     }
 }
