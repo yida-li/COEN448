@@ -7,21 +7,23 @@ import static java.lang.System.exit;
 
 public class CommandHandler {
 
-
     private static final Scanner sc = new Scanner(System.in);
     private static Table table;
-    private static boolean initialized = false;
     private static Singleton robot;
+    private static boolean initialized = false;
 
-    public CommandHandler(){}
+    //constructor, runs the UI
+    public CommandHandler(){ui();}
 
     /**
      * UI of the client
      * displays commands to server and handles them
      */
     public static void ui(){
-        String val = "";
+        String val = "";    //input from user
+
         while (!val.equals("exit")) {
+            //ui
             System.out.println("\nEnter 'Q' to close program");
             System.out.println("Possible commands:\n" +
                     "I n: Initialize the system\n"+
@@ -41,28 +43,37 @@ public class CommandHandler {
                 val = "-1";
             }
 
+            //number given for initialization and move spaces
             int number = 0;
 
+            //if m or i is entered alone without a number
             if((val.charAt(0) == 'M' || val.charAt(0) == 'm' || val.charAt(0) == 'I' || val.charAt(0) == 'i')
                     && val.length()==1) {
-                val = "x";
-            } else if(val.charAt(0) == 'I' || val.charAt(0) == 'i') {
+                val = "x"; //incorrect input
+            }
+            else if(val.charAt(0) == 'I' || val.charAt(0) == 'i') { //if I input, initialization requested
+                //get number given
                 number = intValueGiven(val);
+                //if number is negative, invalid input
                 if(number <=0) {
                     val = "x";
                 } else {
                     val = "I";
                 }
-            } else if(val.charAt(0) == 'M' || val.charAt(0) == 'm') {
+            }
+            else if(val.charAt(0) == 'M' || val.charAt(0) == 'm') { //if m input, move requested
+                //get number given
                 number = intValueGiven(val);
+                //if number is negative, invalid input
                 if(number <=0) {
                     val = "x";
                 } else {
                     val = "M";
                 }
-                //System.out.println("val is:" + val);
             }
 
+            //cases for every possible commands
+            //make sure system is initialized before accepting any other command
             switch (val) {
                 case "i":
                 case "I":
@@ -73,49 +84,49 @@ public class CommandHandler {
                     if(initialized) {
                         penUp();
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "d":
                 case "D":
                     if(initialized) {
                         penDown();
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "r":
                 case "R":
                     if(initialized) {
                         turnRight();
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "l":
                 case "L":
                     if(initialized) {
                         turnLeft();
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "m":
                 case "M":
                     if(initialized) {
                         moveRobot(number);
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "p":
                 case "P":
                     if(initialized) {
                         printTable();
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "c":
                 case "C":
                     if(initialized) {
                         printPosition();
                     }else
-                        System.out.println("Please initalize the system first");
+                        System.out.println("Please initialize the system first");
                     break;
                 case "q":
                 case "Q":
@@ -131,6 +142,7 @@ public class CommandHandler {
         exit(1);
     }
 
+    //get the number entered from the string
     private static int intValueGiven(String val)
     {
         int number = 0;
@@ -159,6 +171,7 @@ public class CommandHandler {
         return number;
     }
 
+    //remove whitespaces from the string
     private static void removeBlankSpace(StringBuilder sb) {
         int j = 0;
         for(int i = 0; i < sb.length(); i++) {
@@ -169,15 +182,19 @@ public class CommandHandler {
         sb.delete(j, sb.length());
     }
 
+    //make sure given value is a number
     private static boolean isNumeric(String str){
         return str != null && str.matches("[0-9.]+");
     }
 
+    //print the position of the robot
     private static void printPosition() {
         System.out.println("Printing position...");
+        //get coordinates
         Point position = robot.getCoordinates();
         int x = position.x;
         int y = position.y;
+        //get state of the pen
         boolean upDown = robot.getPenState();
         String pen;
         if (upDown)
@@ -185,15 +202,20 @@ public class CommandHandler {
         else
             pen = "up";
 
+        //get direction of the pen
         String direction = robot.getDirection();
+
+        //print position
         System.out.println("Position: " + x + ", " + y + " - Pen: " + pen + " - Facing: " + direction);
     }
 
+    //print the table
     private static void printTable() {
         System.out.println("Printing table...");
         table.printTable();
     }
 
+    //move the robot
     private static void moveRobot(int spaces) {
         System.out.println("Moving...");
         //todo: move the robot, make sure it is not going out of the table,
@@ -201,10 +223,12 @@ public class CommandHandler {
         // set new coordinates of the robot
     }
 
+    //turn the robot left
     private static void turnLeft() {
         System.out.println("Turning left...");
         String currentDirection = robot.getDirection();
 
+        //turn correct direction, depending on current direction
         if(currentDirection.equals("north")){
             robot.setDirectionWest();
         }else if(currentDirection.equals("south")){
@@ -216,10 +240,12 @@ public class CommandHandler {
         }
     }
 
+    //turn the robot right
     private static void turnRight() {
         System.out.println("Turning right...");
         String currentDirection = robot.getDirection();
 
+        //turn correct direction, depending on current direction
         if(currentDirection.equals("north")){
             robot.setDirectionEast();
         }else if(currentDirection.equals("south")){
@@ -231,21 +257,27 @@ public class CommandHandler {
         }
     }
 
+    //make the pen face down
     private static void penDown() {
         System.out.println("Pen direction going down...");
         robot.setPenState(true);
     }
 
+    //make the pen face up
     private static void penUp() {
         System.out.println("Pen direction going up...");
         robot.setPenState(false);
     }
 
+    //initialize the system
+    //make new table
+    //reset robot
+    //set initialized boolean
     private static void initializeSystem(int size) {
         System.out.println("Initializing with size: " + size);
         table = new Table(size,size);
         robot = Singleton.getInstance();
+        robot.reinitialize();
         initialized = true;
-
     }
 }

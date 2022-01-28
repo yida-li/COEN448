@@ -86,10 +86,13 @@ public class SingletonTest {
 
     @Test
     void testReinitialize(){
+        //change robot state
         Point p1 = new Point(5,3);
         robot.setPenState(true);
         robot.setCoordinates(p1);
         robot.setDirectionWest();
+
+        //reset robot
         robot.reinitialize();
 
         Point p = new Point(0,0);

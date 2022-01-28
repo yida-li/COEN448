@@ -28,14 +28,10 @@ class TableTest {
     }
 
     @Test
-    void testSetSize() {
-        table.setSize(5,5);
-        assertEquals(5,table.getHeight());
-    }
-
-    @Test
     void testIsOnTable() {
+        //point on table
         Point validPoint = new Point(5,5);
+        //point out of bound
         Point invalidPoint = new Point(11,11);
         assertAll(() -> assertEquals(true, table.isOnTable(validPoint)),
                 () -> assertEquals(false, table.isOnTable(invalidPoint)));
@@ -53,6 +49,7 @@ class TableTest {
 
     @Test
     void testGetTableArray() {
+        //get expected array
         int[][] tableArray = new int[10][10];
 
         for (int row = 0; row < 10; row++)
@@ -68,7 +65,8 @@ class TableTest {
 
     @Test
     void testPrintTable() {
-       //how to test print?
+
+        //get expected output
         String output = "";
 
         int[][] tableArray = table.getTableArray();
