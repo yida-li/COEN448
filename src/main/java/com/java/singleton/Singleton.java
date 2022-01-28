@@ -44,8 +44,8 @@ public class Singleton {
         return this.penState;
     }
 
-    public void setPenState(boolean state){
-        this.penState = state;
+    public void changePenState(){
+        this.penState ^= true;
     }
 
     public Point getCoordinates(){

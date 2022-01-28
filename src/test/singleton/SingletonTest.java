@@ -25,10 +25,10 @@ public class SingletonTest {
     }
 
     @Test
-    void testSetPenState(){
-        robot.setPenState(true);
+    void testChangePenState(){
+        robot.changePenState();
         assertEquals(true, robot.getPenState());
-        robot.setPenState(true);
+        robot.changePenState();
     }
 
     @Test
