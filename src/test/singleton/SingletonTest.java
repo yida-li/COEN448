@@ -26,9 +26,9 @@ public class SingletonTest {
 
     @Test
     void testSetPenState(){
-        robot.setPenState();
+        robot.setPenState(true);
         assertEquals(true, robot.getPenState());
-        robot.setPenState();
+        robot.setPenState(true);
     }
 
     @Test
