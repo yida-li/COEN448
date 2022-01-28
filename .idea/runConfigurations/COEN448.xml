@@ -4,11 +4,23 @@
     <module name="COEN448" />
     <extension name="coverage" sample_coverage="false" track_test_folders="true">
       <pattern>
-        <option name="PATTERN" value="com.java.main.Main" />
+        <option name="PATTERN" value="com.java.main.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="com.java.singleton.Singleton" />
+        <option name="PATTERN" value="com.java.singleton.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="com.java.singleton.CommandHandlerTest" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="com.java.singleton.SingletonTest" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="com.java.singleton.TableTest" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

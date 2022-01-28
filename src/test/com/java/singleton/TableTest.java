@@ -28,13 +28,18 @@ class TableTest {
     }
 
     @Test
+    void testTableConstructor() {
+        table = new Table(-5,-5);
+        assertEquals(0, table.getHeight());
+    }
+    @Test
     void testIsOnTable() {
         //point on table
         Point validPoint = new Point(5,5);
         //point out of bound
         Point invalidPoint = new Point(11,11);
-        assertAll(() -> assertEquals(true, table.isOnTable(validPoint)),
-                () -> assertEquals(false, table.isOnTable(invalidPoint)));
+        assertAll(() -> assertTrue(table.isOnTable(validPoint)),
+                () -> assertFalse(table.isOnTable(invalidPoint)));
     }
 
     @Test
@@ -65,22 +70,21 @@ class TableTest {
 
     @Test
     void testPrintTable() {
-
         //get expected output
-        String output = "";
+        StringBuilder output = new StringBuilder();
 
         int[][] tableArray = table.getTableArray();
         for (int[] row : tableArray){
             for (int element : row){
                 if(element == 0)
-                    output +="  ";
+                    output.append("  ");
                 else
-                    output +="* ";
+                    output.append("* ");
             }
-            output +="\n";
+            output.append("\n");
         }
 
         table.printTable();
-        assertEquals(output, outputStreamCaptor.toString());
+        assertEquals(output.toString(), outputStreamCaptor.toString());
     }
 }

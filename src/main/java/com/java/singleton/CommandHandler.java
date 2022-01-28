@@ -9,11 +9,11 @@ public class CommandHandler {
 
     private static final Scanner sc = new Scanner(System.in);
     private static Table table;
-    private static Singleton robot;
-    private static boolean initialized = false;
+    public static Singleton robot;
+    public static boolean initialized = false;
 
     //constructor, runs the UI
-    public CommandHandler(){ui();}
+    public CommandHandler(){}
 
     /**
      * UI of the client
@@ -46,7 +46,7 @@ public class CommandHandler {
             //number given for initialization and move spaces
             int number = 0;
 
-            //if m or i is entered alone without a number
+            //if m or I is entered alone without a number
             if((val.charAt(0) == 'M' || val.charAt(0) == 'm' || val.charAt(0) == 'I' || val.charAt(0) == 'i')
                     && val.length()==1) {
                 val = "x"; //incorrect input
@@ -143,7 +143,7 @@ public class CommandHandler {
     }
 
     //get the number entered from the string
-    private static int intValueGiven(String val)
+    public static int intValueGiven(String val)
     {
         int number = 0;
         String temp;
@@ -151,8 +151,7 @@ public class CommandHandler {
         //get int from char
         StringBuilder sb = new StringBuilder(val);
         sb.deleteCharAt(0);
-        removeBlankSpace(sb);
-        temp = sb.toString();
+        temp = removeBlankSpace(sb);
 
         if(isNumeric(temp)){
             //save given number
@@ -172,7 +171,7 @@ public class CommandHandler {
     }
 
     //remove whitespaces from the string
-    private static void removeBlankSpace(StringBuilder sb) {
+    public static String removeBlankSpace(StringBuilder sb) {
         int j = 0;
         for(int i = 0; i < sb.length(); i++) {
             if (!Character.isWhitespace(sb.charAt(i))) {
@@ -180,16 +179,17 @@ public class CommandHandler {
             }
         }
         sb.delete(j, sb.length());
+        return sb.toString();
     }
 
     //make sure given value is a number
-    private static boolean isNumeric(String str){
+    public static boolean isNumeric(String str){
         return str != null && str.matches("[0-9.]+");
     }
 
     //print the position of the robot
-    private static void printPosition() {
-        System.out.println("Printing position...");
+    public static void printPosition() {
+        //System.out.println("Printing position...");
         //get coordinates
         Point position = robot.getCoordinates();
         int x = position.x;
@@ -210,13 +210,13 @@ public class CommandHandler {
     }
 
     //print the table
-    private static void printTable() {
-        System.out.println("Printing table...");
+    public static void printTable() {
+        //System.out.println("Printing table...");
         table.printTable();
     }
 
     //move the robot
-    private static void moveRobot(int spaces) {
+    public static void moveRobot(int spaces) {
         System.out.println("Moving...");
         //todo: move the robot, make sure it is not going out of the table,
         // print to the table if the pen is down (true)
@@ -224,47 +224,57 @@ public class CommandHandler {
     }
 
     //turn the robot left
-    private static void turnLeft() {
+    public static void turnLeft() {
         System.out.println("Turning left...");
         String currentDirection = robot.getDirection();
 
         //turn correct direction, depending on current direction
-        if(currentDirection.equals("north")){
-            robot.setDirectionWest();
-        }else if(currentDirection.equals("south")){
-            robot.setDirectionEast();
-        }else if(currentDirection.equals("east")){
-            robot.setDirectionNorth();
-        }else if(currentDirection.equals("west")){
-            robot.setDirectionSouth();
+        switch (currentDirection) {
+            case "north":
+                robot.setDirectionWest();
+                break;
+            case "south":
+                robot.setDirectionEast();
+                break;
+            case "east":
+                robot.setDirectionNorth();
+                break;
+            case "west":
+                robot.setDirectionSouth();
+                break;
         }
     }
 
     //turn the robot right
-    private static void turnRight() {
+    public static void turnRight() {
         System.out.println("Turning right...");
         String currentDirection = robot.getDirection();
 
         //turn correct direction, depending on current direction
-        if(currentDirection.equals("north")){
-            robot.setDirectionEast();
-        }else if(currentDirection.equals("south")){
-            robot.setDirectionWest();
-        }else if(currentDirection.equals("east")){
-            robot.setDirectionSouth();
-        }else if(currentDirection.equals("west")){
-            robot.setDirectionNorth();
+        switch (currentDirection) {
+            case "north":
+                robot.setDirectionEast();
+                break;
+            case "south":
+                robot.setDirectionWest();
+                break;
+            case "east":
+                robot.setDirectionSouth();
+                break;
+            case "west":
+                robot.setDirectionNorth();
+                break;
         }
     }
 
     //make the pen face down
-    private static void penDown() {
+    public static void penDown() {
         System.out.println("Pen direction going down...");
         robot.setPenState(true);
     }
 
     //make the pen face up
-    private static void penUp() {
+    public static void penUp() {
         System.out.println("Pen direction going up...");
         robot.setPenState(false);
     }
@@ -273,7 +283,7 @@ public class CommandHandler {
     //make new table
     //reset robot
     //set initialized boolean
-    private static void initializeSystem(int size) {
+    public static void initializeSystem(int size) {
         System.out.println("Initializing with size: " + size);
         table = new Table(size,size);
         robot = Singleton.getInstance();

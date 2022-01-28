@@ -1,16 +1,12 @@
 package com.java.singleton;
 
-import com.java.singleton.Singleton;
 import java.awt.*;
-import java.io.PrintStream;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SingletonTest {
     private static Singleton robot;
@@ -62,13 +58,13 @@ public class SingletonTest {
 
     @Test
     void testGetPenState(){
-        assertEquals(false, robot.getPenState());
+        assertFalse(robot.getPenState());
     }
 
     @Test
     void testSetPenState(){
         robot.setPenState(true);
-        assertEquals(true, robot.getPenState());
+        assertTrue(robot.getPenState());
     }
 
     @Test
@@ -96,7 +92,7 @@ public class SingletonTest {
         robot.reinitialize();
 
         Point p = new Point(0,0);
-        assertAll(() -> assertEquals(false, robot.getPenState()),
+        assertAll(() -> assertFalse(robot.getPenState()),
                 () -> assertEquals(p, robot.getCoordinates()),
                 () -> assertEquals("north", robot.getDirection()));
     }

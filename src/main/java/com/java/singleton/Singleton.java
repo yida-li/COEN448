@@ -54,7 +54,7 @@ public class Singleton {
         this.coordinates = p;
     }
 
-    //reinitialize the robot to the inital point
+    //reinitialize the robot to the initial point
     public void reinitialize(){
         this.penState = false;
         this.coordinates = new Point(0,0);
