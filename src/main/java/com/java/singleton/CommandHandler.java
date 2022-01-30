@@ -1,7 +1,6 @@
 package com.java.singleton;
 
 import java.awt.*;
-import java.util.Objects;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -207,7 +206,7 @@ public class CommandHandler {
         String direction = robot.getDirection();
 
         //print position
-        System.out.println("Position: " + x + ", " + y + " - Pen: " + pen + " - Facing: " + direction);
+        System.out.println("Position: " + y + ", " + x + " - Pen: " + pen + " - Facing: " + direction);
     }
 
     //print the table along with the coordinates of the robot and the orientation of the pen
@@ -217,51 +216,53 @@ public class CommandHandler {
     }
 
     //move the robot
-    public static void moveRobot(int spaces) {
-        System.out.println("Moving...");
-
+    public static void moveRobot(int steps) {
         String direction = robot.getDirection();
-        int steps= spaces;
-        if (robot.getPenState()==false){ // when the pen is up
-            while(steps>0) {
-                if (direction == "north")
-                    if (table.getHeight()-1 > robot.getCoordinates().getX())
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()+1), (int) robot.getCoordinates().getY());
-                if (direction == "south")
-                    if (robot.getCoordinates().getX() > 0)
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()-1), (int) robot.getCoordinates().getY());
-                if (direction == "west")
-                    if (table.getWidth()-1 > robot.getCoordinates().getY())
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()+1);
-                if (direction == "east")
-                    if (robot.getCoordinates().getY() > 0)
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()-1);
-                steps--;
-            }
-                                        }
-        else // if pen is down
-        {
-            while(steps>0) {
-                if (direction == "north")
-                    if (table.getHeight()-1 > robot.getCoordinates().getX())
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()+1), (int) robot.getCoordinates().getY());
-                        table.writeTable(robot.getCoordinates());
-                if (direction == "south")
-                    if (robot.getCoordinates().getX() > 0)
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()-1), (int) robot.getCoordinates().getY());
-                        table.writeTable(robot.getCoordinates());
-                if (direction == "west")
-                    if (table.getWidth()-1 > robot.getCoordinates().getY())
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()+1);
-                        table.writeTable(robot.getCoordinates());
-                if (direction == "east")
-                    if (robot.getCoordinates().getY() > 0)
-                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()-1);
-                        table.writeTable(robot.getCoordinates());
-                steps--;
-            }
+        Point position = robot.getCoordinates();
+        Point nextPoint;
+        int x = position.x;
+        int y = position.y;
+        boolean onTable;
+        boolean penState = robot.getPenState();
+
+        switch (direction) {
+            case "north":
+                nextPoint = new Point(x + steps, y);
+                break;
+            case "south":
+                nextPoint = new Point(x - steps, y);
+                break;
+            case "west":
+                nextPoint = new Point(x, y - steps);
+                break;
+            case "east":
+                nextPoint = new Point(x, y + steps);
+                break;
+            default:
+                nextPoint = new Point(-1, -1);
+                break;
         }
 
+        onTable = table.isOnTable(nextPoint);
+
+        if(onTable){
+            //move robot
+            System.out.println("Moving...");
+            while(steps>0) {
+                if (direction.equals("north"))
+                    robot.getCoordinates().move((int) (robot.getCoordinates().getX()+1), (int) robot.getCoordinates().getY());
+                if (direction.equals("south"))
+                    robot.getCoordinates().move((int) (robot.getCoordinates().getX()-1), (int) robot.getCoordinates().getY());
+                if (direction.equals("west"))
+                    robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()-1);
+                if (direction.equals("east"))
+                    robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()+1);
+                steps--;
+                table.writeTable(robot.getCoordinates(), penState);
+            }
+        }else{
+            System.out.println("Can not move " + steps + " in the " + direction + " direction, the robot will fall off the table");
+        }
     }
 
     //turn the robot left
@@ -310,15 +311,23 @@ public class CommandHandler {
 
     //make the pen face down
     public static void penDown() {
-        System.out.println("Pen direction going down...");
-        robot.setPenState(true);
-        table.writeTable(robot.getCoordinates());//when pen is turned down, automatically write * on the current robot position
+        if(robot.getPenState()){
+            System.out.println("Pen direction already down");
+        } else{
+            System.out.println("Pen direction going down...");
+            robot.setPenState(true);
+            table.writeTable(robot.getCoordinates(), true);//when pen is turned down, automatically write * on the current robot position
+        }
     }
 
     //make the pen face up
     public static void penUp() {
-        System.out.println("Pen direction going up...");
-        robot.setPenState(false);
+        if(!robot.getPenState()){
+            System.out.println("Pen direction already up");
+        } else{
+            System.out.println("Pen direction going up...");
+            robot.setPenState(false);
+        }
     }
 
     //initialize the system
@@ -326,10 +335,14 @@ public class CommandHandler {
     //reset robot
     //set initialized boolean
     public static void initializeSystem(int size) {
-        System.out.println("Initializing with size: " + size);
-        table = new Table(size,size);
-        robot = Singleton.getInstance();
-        robot.reinitialize();
-        initialized = true;
+        if(size < 2){
+            System.out.println("Please choose a size bigger or equal to 2");
+        } else{
+            System.out.println("Initializing with size: " + size);
+            table = new Table(size,size);
+            robot = Singleton.getInstance();
+            robot.reinitialize();
+            initialized = true;
+        }
     }
 }

@@ -36,12 +36,14 @@ public class Table {
     public boolean isOnTable(Point coordinates) {
         double x = coordinates.getX();
         double y = coordinates.getY();
-        return ((x<= width && x>=0) &&( y<=height && y>=0))?  true :  false;
+        return (x < width && x >= 0) && (y < height && y >= 0);
     }
 
     //write on table if pen is holding up
-    public void writeTable(Point coordinates) {
-        tableArray[(int) coordinates.getX()][(int) coordinates.getY()]=1;
+    public void writeTable(Point coordinates, boolean penState) {
+        if(penState){
+            tableArray[(int) coordinates.getX()][(int) coordinates.getY()]=1;
+        }
     }
 
     //getters
@@ -57,23 +59,9 @@ public class Table {
 
     //printer
     //print the table
-    public void printTable(Point coordinates,boolean x){
-
-
-        /*
-        for (int[] row : tableArray){
-            for (int element : row){
-                if(element == 0)
-                    System.out.print("  ");
-                else
-                    System.out.print("* ");
-            }
-            System.out.print("\n");
-        }
-        */
-
+    public void printTable(Point coordinates,boolean penState){
         // prints the robot position along with the pen orientation
-        if (x==false) { // if the pen is facing upwards
+        if (!penState) { // if the pen is facing upwards
             for (int row = tableArray.length-1; row >= 0; row--) {
                 for (int col = 0; col < tableArray[row].length; col++) {
                     if (row == coordinates.getX() && col == coordinates.getY())
