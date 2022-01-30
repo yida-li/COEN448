@@ -5,54 +5,59 @@ import java.awt.*;
 public class Singleton {
     private static Singleton robot;
     private boolean penState; //false: up, true: down
-    private Point coordinates;
-    private String direction;
+    private Point coordinates; //coordinate of robot on table
+    private String direction; // North, East, South, West
 
+    //constructor
     public Singleton(){
+        //initialise robot
         this.penState = false;
-        coordinates = new Point(0,0);
-        direction = "north";
-    }
-
-    public static Singleton getInstance(){
-        if (robot == null)
-            robot = new Singleton();
-
-        return robot;
-    }
-    public String getDirection() {
-        return this.direction;
-    }
-
-    public void setDirectionNorth(){
+        this.coordinates = new Point(0,0);
         this.direction = "north";
     }
 
-    public void setDirectionSouth(){
-        this.direction = "south";
+    //get the current instance of the robot
+    public static Singleton getInstance(){
+        if (robot == null)
+            robot = new Singleton();
+        return robot;
     }
 
-    public void setDirectionEast(){
-        this.direction = "east";
+    //getters
+    public String getDirection() {
+        return this.direction;
     }
-
-    public void setDirectionWest(){
-        this.direction = "west";
-    }
-
     public boolean getPenState(){
         return this.penState;
     }
-
-    public void changePenState(){
-        this.penState ^= true;
-    }
-
     public Point getCoordinates(){
         return this.coordinates;
     }
 
+    //setters
+    public void setDirectionNorth(){
+        this.direction = "north";
+    }
+    public void setDirectionSouth(){
+        this.direction = "south";
+    }
+    public void setDirectionEast(){
+        this.direction = "east";
+    }
+    public void setDirectionWest(){
+        this.direction = "west";
+    }
+    public void setPenState(boolean state){
+        this.penState = state;
+    }
     public void setCoordinates(Point p){
         this.coordinates = p;
+    }
+
+    //reinitialize the robot to the initial point
+    public void reinitialize(){
+        this.penState = false;
+        this.coordinates = new Point(0,0);
+        this.direction = "north";
     }
 }
