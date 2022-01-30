@@ -1,6 +1,7 @@
 package com.java.singleton;
 
 import java.awt.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -209,18 +210,58 @@ public class CommandHandler {
         System.out.println("Position: " + x + ", " + y + " - Pen: " + pen + " - Facing: " + direction);
     }
 
-    //print the table
+    //print the table along with the coordinates of the robot and the orientation of the pen
     public static void printTable() {
         //System.out.println("Printing table...");
-        table.printTable();
+        table.printTable(robot.getCoordinates(), robot.getPenState());
     }
 
     //move the robot
     public static void moveRobot(int spaces) {
         System.out.println("Moving...");
-        //todo: move the robot, make sure it is not going out of the table,
-        // print to the table if the pen is down (true)
-        // set new coordinates of the robot
+
+        String direction = robot.getDirection();
+        int steps= spaces;
+        if (robot.getPenState()==false){ // when the pen is up
+            while(steps>0) {
+                if (direction == "south")
+                    if (table.getHeight() > robot.getCoordinates().getY())
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()+1), (int) robot.getCoordinates().getY());
+                if (Objects.equals(direction, "north"))
+                    if (robot.getCoordinates().getY() > 0)
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()-1), (int) robot.getCoordinates().getY());
+                if (direction == "west")
+                    if (table.getWidth() > robot.getCoordinates().getX())
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()+1);
+                if (direction == "east")
+                    if (robot.getCoordinates().getX() > 0)
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()-1);
+                steps--;
+            }
+                                        }
+        else // if pen is down
+        {
+            while(steps>0) {
+                if (direction == "south")
+                    if (table.getHeight() > robot.getCoordinates().getY())
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()+1), (int) robot.getCoordinates().getY());
+                        table.writeTable(robot.getCoordinates());
+                if (direction == "north")
+                    if (robot.getCoordinates().getY() > 0)
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()-1), (int) robot.getCoordinates().getY());
+                        table.writeTable(robot.getCoordinates());
+                if (direction == "west")
+                    if (table.getWidth() > robot.getCoordinates().getX())
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()+1);
+                        table.writeTable(robot.getCoordinates());
+                if (direction == "east")
+                    if (robot.getCoordinates().getX() > 0)
+                        robot.getCoordinates().move((int) (robot.getCoordinates().getX()), (int) robot.getCoordinates().getY()-1);
+                        table.writeTable(robot.getCoordinates());
+                steps--;
+            }
+        }
+
     }
 
     //turn the robot left
