@@ -29,7 +29,7 @@ public class Table {
         for (int[] ints : tableArray) {
             Arrays.fill(ints, 0);
         }
-        tableArray[0][0]=1;
+
     }
 
     //verify if a given coordinate is on the table
@@ -74,7 +74,7 @@ public class Table {
 
         // prints the robot position along with the pen orientation
         if (x==false) { // if the pen is facing upwards
-            for (int row = 0; row < tableArray.length; row++) {
+            for (int row = tableArray.length-1; row >= 0; row--) {
                 for (int col = 0; col < tableArray[row].length; col++) {
                     if (row == coordinates.getX() && col == coordinates.getY())
                         System.out.print("↑ ");
@@ -87,7 +87,7 @@ public class Table {
             }
         }
         else {         // if the pen is facing downwards
-            for (int row = 0; row < tableArray.length; row++) {
+            for (int row = tableArray.length-1; row >= 0; row--) {
                 for (int col = 0; col < tableArray[row].length; col++) {
                     if (row == coordinates.getX() && col == coordinates.getY())
                         System.out.print("↓ ");
