@@ -83,8 +83,9 @@ class TableTest {
             }
             output.append("\n");
         }
-
-        table.printTable();
+        Point temp=new Point(0,0); // temporary added this for the writeTable method in table class
+        table.printTable(temp,false); // initially printing table with pen up at location 0,0
+        //table.printTable();
         assertEquals(output.toString(), outputStreamCaptor.toString());
     }
 }
