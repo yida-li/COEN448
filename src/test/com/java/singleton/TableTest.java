@@ -74,15 +74,19 @@ class TableTest {
         StringBuilder output = new StringBuilder();
 
         int[][] tableArray = table.getTableArray();
-        for (int[] row : tableArray){
-            for (int element : row){
-                if(element == 0)
+
+        for (int row = tableArray.length-1; row >= 0; row--) {
+            for (int col = 0; col < tableArray[row].length; col++) {
+                if (row == 0 && col == 0)
+                    output.append("↑ ");
+                else if (tableArray[row][col] == 0)
                     output.append("  ");
                 else
                     output.append("* ");
             }
             output.append("\n");
         }
+
         Point temp=new Point(0,0); // temporary added this for the writeTable method in table class
         table.printTable(temp,false); // initially printing table with pen up at location 0,0
         //table.printTable();

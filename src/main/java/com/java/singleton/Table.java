@@ -67,7 +67,7 @@ public class Table {
                     if (row == coordinates.getX() && col == coordinates.getY())
                         System.out.print("↑ ");
                     else if (tableArray[row][col] == 0)
-                        System.out.print(". ");
+                        System.out.print("  ");
                     else
                         System.out.print("* ");
                 }
@@ -80,7 +80,7 @@ public class Table {
                     if (row == coordinates.getX() && col == coordinates.getY())
                         System.out.print("↓ ");
                     else if (tableArray[row][col] == 0)
-                        System.out.print(". ");
+                        System.out.print("  ");
                     else
                         System.out.print("* ");
                 }
