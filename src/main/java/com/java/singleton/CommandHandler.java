@@ -155,12 +155,7 @@ public class CommandHandler {
 
         if(isNumeric(temp)){
             //save given number
-            try{
-                number = Integer.parseInt(temp);
-            }
-            catch (NumberFormatException ex){
-                ex.printStackTrace();
-            }
+            number = Integer.parseInt(temp);
         }else{
             //invalid format
             number = -1;

@@ -143,12 +143,23 @@ class CommandHandlerTest {
     void penDown() {
         commandHandler.penDown();
         assertTrue(commandHandler.robot.getPenState());
+
+        outputStreamCaptor.reset();
+        commandHandler.penDown();
+        assertEquals("Pen direction already down", outputStreamCaptor.toString().trim());
     }
 
     @Test
     void penUp() {
+        outputStreamCaptor.reset();
+        commandHandler.penUp();
+        assertEquals("Pen direction already up", outputStreamCaptor.toString().trim());
+
+        commandHandler.robot.setPenState(true);
         commandHandler.penUp();
         assertFalse(commandHandler.robot.getPenState());
+
+
     }
 
     @Test
@@ -156,5 +167,8 @@ class CommandHandlerTest {
         commandHandler.initializeSystem(5);
         assertTrue(commandHandler.initialized);
 
+        outputStreamCaptor.reset();
+        commandHandler.initializeSystem(1);
+        assertEquals("Please choose a size bigger or equal to 2", outputStreamCaptor.toString().trim());
     }
 }
