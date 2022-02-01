@@ -47,10 +47,10 @@ class CommandHandlerTest {
         String val1 = "i";
         String val2 = "i 5";
         String val3 = "i -5";
-        assertAll(() -> assertEquals(10, CommandHandler.intValueGiven(val)),
-                () -> assertEquals(-1,commandHandler.intValueGiven(val1)),
-                () -> assertEquals(5,commandHandler.intValueGiven(val2)),
-                () -> assertEquals(-1,commandHandler.intValueGiven(val3)));
+        assertAll(() -> assertEquals(10, CommandHandler.intValueGiven(val)), //test valid number with no space
+                () -> assertEquals(-1,commandHandler.intValueGiven(val1)),   //test no number given
+                () -> assertEquals(5,commandHandler.intValueGiven(val2)),    //test valid number with space
+                () -> assertEquals(-1,commandHandler.intValueGiven(val3)));  //test invalid number
     }
 
     @Test
@@ -65,8 +65,8 @@ class CommandHandlerTest {
     void isNumeric() {
         String numb = "10";
         String notNumb = "A";
-        assertAll(() -> assertTrue(commandHandler.isNumeric(numb)),
-                () -> assertFalse(commandHandler.isNumeric(notNumb)));
+        assertAll(() -> assertTrue(commandHandler.isNumeric(numb)),    //test valid number
+                () -> assertFalse(commandHandler.isNumeric(notNumb))); //test invalid number
     }
 
     @Test
@@ -76,15 +76,15 @@ class CommandHandlerTest {
         String mes3 = "Position: " + 0 + ", " + 0 + " - Pen: " + "down" + " - Facing: " + "east";
         outputStreamCaptor.reset();
         commandHandler.printPosition();
-        assertEquals(mes,outputStreamCaptor.toString().trim());
+        assertEquals(mes,outputStreamCaptor.toString().trim());     //test initial position
         commandHandler.penDown();
         outputStreamCaptor.reset();
         commandHandler.printPosition();
-        assertEquals(mes2,outputStreamCaptor.toString().trim());
+        assertEquals(mes2,outputStreamCaptor.toString().trim());    //test position with pen down
         commandHandler.turnRight();
         outputStreamCaptor.reset();
         commandHandler.printPosition();
-        assertEquals(mes3,outputStreamCaptor.toString().trim());
+        assertEquals(mes3,outputStreamCaptor.toString().trim());    //test position facing east
 
     }
 
@@ -102,6 +102,7 @@ class CommandHandlerTest {
             Arrays.fill(ints, 0);
         }
 
+        //get initial table
         for (int row = tableArray.length-1; row >= 0; row--) {
             for (int col = 0; col < tableArray[row].length; col++) {
                 if (row == 0 && col == 0)
@@ -129,33 +130,35 @@ class CommandHandlerTest {
     @Test
     void turnLeft() {
         commandHandler.turnLeft();
-        assertEquals("west", commandHandler.robot.getDirection());
+        assertEquals("west", commandHandler.robot.getDirection()); //test left turn if initially facing west
         commandHandler.turnLeft();
-        assertEquals("south", commandHandler.robot.getDirection());
+        assertEquals("south", commandHandler.robot.getDirection()); //test left turn if initially facing south
         commandHandler.turnLeft();
-        assertEquals("east", commandHandler.robot.getDirection());
+        assertEquals("east", commandHandler.robot.getDirection()); //test left turn if initially facing east
         commandHandler.turnLeft();
-        assertEquals("north", commandHandler.robot.getDirection());
+        assertEquals("north", commandHandler.robot.getDirection()); //test left turn if initially facing north
     }
 
     @Test
     void turnRight() {
         commandHandler.turnRight();
-        assertEquals("east", commandHandler.robot.getDirection());
+        assertEquals("east", commandHandler.robot.getDirection());  //test right turn if initially facing east
         commandHandler.turnRight();
-        assertEquals("south", commandHandler.robot.getDirection());
+        assertEquals("south", commandHandler.robot.getDirection());  //test right turn if initially facing south
         commandHandler.turnRight();
-        assertEquals("west", commandHandler.robot.getDirection());
+        assertEquals("west", commandHandler.robot.getDirection());  //test right turn if initially facing west
         commandHandler.turnRight();
-        assertEquals("north", commandHandler.robot.getDirection());
+        assertEquals("north", commandHandler.robot.getDirection());  //test right turn if initially facing north
 
     }
 
     @Test
     void penDown() {
+        //test pen initially up
         commandHandler.penDown();
         assertTrue(commandHandler.robot.getPenState());
 
+        //test pen already down
         outputStreamCaptor.reset();
         commandHandler.penDown();
         assertEquals("Pen direction already down", outputStreamCaptor.toString().trim());
@@ -163,22 +166,24 @@ class CommandHandlerTest {
 
     @Test
     void penUp() {
+        //test pen initially up
         outputStreamCaptor.reset();
         commandHandler.penUp();
         assertEquals("Pen direction already up", outputStreamCaptor.toString().trim());
 
+        //test pen already up
         commandHandler.robot.setPenState(true);
         commandHandler.penUp();
         assertFalse(commandHandler.robot.getPenState());
-
-
     }
 
     @Test
     void initializeSystem() {
+        //test with valid table size
         commandHandler.initializeSystem(5);
         assertTrue(commandHandler.initialized);
 
+        //test with invalid table size
         outputStreamCaptor.reset();
         commandHandler.initializeSystem(1);
         assertEquals("Please choose a size bigger or equal to 2", outputStreamCaptor.toString().trim());

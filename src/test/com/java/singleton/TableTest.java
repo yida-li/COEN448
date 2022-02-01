@@ -38,8 +38,8 @@ class TableTest {
         Point validPoint = new Point(5,5);
         //point out of bound
         Point invalidPoint = new Point(11,11);
-        assertAll(() -> assertTrue(table.isOnTable(validPoint)),
-                () -> assertFalse(table.isOnTable(invalidPoint)));
+        assertAll(() -> assertTrue(table.isOnTable(validPoint)),        //Test valid point
+                () -> assertFalse(table.isOnTable(invalidPoint)));      //test invalid point
     }
 
     @Test

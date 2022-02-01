@@ -58,13 +58,23 @@ public class SingletonTest {
 
     @Test
     void testGetPenState(){
+        //test pen is up
         assertFalse(robot.getPenState());
+
+        robot.setPenState(true);
+        //test pen is down
+        assertTrue(robot.getPenState());
     }
 
     @Test
     void testSetPenState(){
+        //test setting pen down
         robot.setPenState(true);
         assertTrue(robot.getPenState());
+
+        //test setting pen up
+        robot.setPenState(false);
+        assertFalse(robot.getPenState());
     }
 
     @Test
