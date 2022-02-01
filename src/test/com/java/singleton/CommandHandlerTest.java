@@ -104,7 +104,7 @@ class CommandHandlerTest {
 
         //get initial table
         for (int row = tableArray.length-1; row >= 0; row--) {
-            output.append(row + " ");
+            output.append(row + "| ");
             for (int col = 0; col < tableArray[row].length; col++) {
                 if (row == 0 && col == 0)
                     output.append("↑ ");
@@ -115,7 +115,11 @@ class CommandHandlerTest {
             }
             output.append("\n");
         }
-        output.append( "  ");
+        output.append("  ");
+        for (int col = 0; col < tableArray.length; col++) {
+            output.append("__");
+        }
+        output.append("\n   ");
         for (int col = 0; col < tableArray.length; col++) {
             output.append(col + " ");
         }

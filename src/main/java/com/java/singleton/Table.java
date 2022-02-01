@@ -62,7 +62,7 @@ public class Table {
     public void printTable(Point coordinates,boolean penState){
         // prints the robot position along with the pen orientation
         for (int row = tableArray.length-1; row >= 0; row--) {
-            System.out.print(row + " ");
+            System.out.print(row + "| ");
             for (int col = 0; col < tableArray[row].length; col++) {
                 if (row == coordinates.getX() && col == coordinates.getY())
                     if(!penState)
@@ -77,6 +77,10 @@ public class Table {
             System.out.print("\n");
         }
         System.out.print("  ");
+        for (int col = 0; col < tableArray.length; col++) {
+            System.out.print("__");
+        }
+        System.out.print("\n   ");
         for (int col = 0; col < tableArray.length; col++) {
             System.out.print(col + " ");
         }
