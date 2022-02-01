@@ -2,6 +2,9 @@
 COEN 448 Software Testing and Validation 
 Robot Motion Project - Winter 2022
 
+![workflow](https://github.com/YIDA-LI/coen448/actions/workflows/maven.yml/badge.svg)
+![event-workflow](https://github.com/YIDA-LI/coen448/actions/workflows/maven.yml/badge.svg?event=push)
+
 ## Objective
 Test the practical use of the software testing techniques covered in the course.
 
