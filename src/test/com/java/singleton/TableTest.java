@@ -76,6 +76,7 @@ class TableTest {
         int[][] tableArray = table.getTableArray();
 
         for (int row = tableArray.length-1; row >= 0; row--) {
+            output.append(row + " ");
             for (int col = 0; col < tableArray[row].length; col++) {
                 if (row == 0 && col == 0)
                     output.append("↑ ");
@@ -85,6 +86,10 @@ class TableTest {
                     output.append("* ");
             }
             output.append("\n");
+        }
+        output.append( "  ");
+        for (int col = 0; col < tableArray.length; col++) {
+            output.append(col + " ");
         }
 
         Point temp=new Point(0,0); // temporary added this for the writeTable method in table class

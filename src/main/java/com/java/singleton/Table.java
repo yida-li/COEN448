@@ -61,33 +61,24 @@ public class Table {
     //print the table
     public void printTable(Point coordinates,boolean penState){
         // prints the robot position along with the pen orientation
-        if (!penState) { // if the pen is facing upwards
-            for (int row = tableArray.length-1; row >= 0; row--) {
-                for (int col = 0; col < tableArray[row].length; col++) {
-                    if (row == coordinates.getX() && col == coordinates.getY())
+        for (int row = tableArray.length-1; row >= 0; row--) {
+            System.out.print(row + " ");
+            for (int col = 0; col < tableArray[row].length; col++) {
+                if (row == coordinates.getX() && col == coordinates.getY())
+                    if(!penState)
                         System.out.print("↑ ");
-                    else if (tableArray[row][col] == 0)
-                        System.out.print("  ");
                     else
-                        System.out.print("* ");
-                }
-                System.out.print("\n");
-            }
-        }
-        else {         // if the pen is facing downwards
-            for (int row = tableArray.length-1; row >= 0; row--) {
-                for (int col = 0; col < tableArray[row].length; col++) {
-                    if (row == coordinates.getX() && col == coordinates.getY())
                         System.out.print("↓ ");
-                    else if (tableArray[row][col] == 0)
-                        System.out.print("  ");
-                    else
-                        System.out.print("* ");
-                }
-                System.out.print("\n");
-
+                else if (tableArray[row][col] == 0)
+                    System.out.print("  ");
+                else
+                    System.out.print("* ");
             }
+            System.out.print("\n");
         }
-
+        System.out.print("  ");
+        for (int col = 0; col < tableArray.length; col++) {
+            System.out.print(col + " ");
+        }
     }
 }
