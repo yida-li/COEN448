@@ -4,7 +4,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
@@ -30,7 +32,12 @@ class CommandHandlerTest {
 
     @Test
     void ui() {
+        InputStream stdin = System.in;
+        System.setIn(new ByteArrayInputStream("i 10".getBytes()));
 
+        //commandHandler.ui();
+
+        //System.setIn(stdin);
     }
 
     @Test
@@ -66,6 +73,7 @@ class CommandHandlerTest {
     void printPosition() {
         String mes = "Position: " + 0 + ", " + 0 + " - Pen: " + "up" + " - Facing: " + "north";
         String mes2 = "Position: " + 0 + ", " + 0 + " - Pen: " + "down" + " - Facing: " + "north";
+        String mes3 = "Position: " + 0 + ", " + 0 + " - Pen: " + "down" + " - Facing: " + "east";
         outputStreamCaptor.reset();
         commandHandler.printPosition();
         assertEquals(mes,outputStreamCaptor.toString().trim());
@@ -73,6 +81,10 @@ class CommandHandlerTest {
         outputStreamCaptor.reset();
         commandHandler.printPosition();
         assertEquals(mes2,outputStreamCaptor.toString().trim());
+        commandHandler.turnRight();
+        outputStreamCaptor.reset();
+        commandHandler.printPosition();
+        assertEquals(mes3,outputStreamCaptor.toString().trim());
 
     }
 

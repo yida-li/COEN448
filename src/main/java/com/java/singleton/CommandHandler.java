@@ -22,124 +22,122 @@ public class CommandHandler {
     public static void ui(){
         String val = "";    //input from user
 
-        while (!val.equals("exit")) {
-            //ui
-            System.out.println("\nEnter 'Q' to close program");
-            System.out.println("Possible commands:\n" +
-                    "I n: Initialize the system\n"+
-                    "U: Pen Up\n"+
-                    "D: Pen Down\n"+
-                    "R: Turn Right\n"+
-                    "L: Turn Left\n"+
-                    "M s: Move forward s spaces\n" +
-                    "P: Print the table\n"+
-                    "C: Print current position of the pen\n"+
-                    "Q: Stop the program\n");
+        //ui
+        System.out.println("\nEnter 'Q' to close program");
+        System.out.println("Possible commands:\n" +
+                "I n: Initialize the system\n"+
+                "U: Pen Up\n"+
+                "D: Pen Down\n"+
+                "R: Turn Right\n"+
+                "L: Turn Left\n"+
+                "M s: Move forward s spaces\n" +
+                "P: Print the table\n"+
+                "C: Print current position of the pen\n"+
+                "Q: Stop the program\n");
 
-            System.out.println("Enter the wanted command:");
-            val = sc.nextLine();
+        System.out.println("Enter the wanted command:");
+        val = sc.nextLine();
 
-            if (val.isEmpty()) {
-                val = "-1";
-            }
+        if (val.isEmpty()) {
+            val = "-1";
+        }
 
-            //number given for initialization and move spaces
-            int number = 0;
+        //number given for initialization and move spaces
+        int number = 0;
 
-            //if m or I is entered alone without a number
-            if((val.charAt(0) == 'M' || val.charAt(0) == 'm' || val.charAt(0) == 'I' || val.charAt(0) == 'i')
-                    && val.length()==1) {
-                val = "x"; //incorrect input
-            }
-            else if(val.charAt(0) == 'I' || val.charAt(0) == 'i') { //if I input, initialization requested
-                //get number given
-                number = intValueGiven(val);
-                //if number is negative, invalid input
-                if(number <=0) {
-                    val = "x";
-                } else {
-                    val = "I";
-                }
-            }
-            else if(val.charAt(0) == 'M' || val.charAt(0) == 'm') { //if m input, move requested
-                //get number given
-                number = intValueGiven(val);
-                //if number is negative, invalid input
-                if(number <=0) {
-                    val = "x";
-                } else {
-                    val = "M";
-                }
-            }
-
-            //cases for every possible commands
-            //make sure system is initialized before accepting any other command
-            switch (val) {
-                case "i":
-                case "I":
-                    initializeSystem(number);
-                    break;
-                case "u":
-                case "U":
-                    if(initialized) {
-                        penUp();
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "d":
-                case "D":
-                    if(initialized) {
-                        penDown();
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "r":
-                case "R":
-                    if(initialized) {
-                        turnRight();
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "l":
-                case "L":
-                    if(initialized) {
-                        turnLeft();
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "m":
-                case "M":
-                    if(initialized) {
-                        moveRobot(number);
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "p":
-                case "P":
-                    if(initialized) {
-                        printTable();
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "c":
-                case "C":
-                    if(initialized) {
-                        printPosition();
-                    }else
-                        System.out.println("Please initialize the system first");
-                    break;
-                case "q":
-                case "Q":
-                    exit(1);
-                    break;
-                case "-1":
-                    System.out.println("User selected Nothing");
-                    break;
-                default:
-                    System.out.println("Invalid entry");
+        //if m or I is entered alone without a number
+        if((val.charAt(0) == 'M' || val.charAt(0) == 'm' || val.charAt(0) == 'I' || val.charAt(0) == 'i')
+                && val.length()==1) {
+            val = "x"; //incorrect input
+        }
+        else if(val.charAt(0) == 'I' || val.charAt(0) == 'i') { //if I input, initialization requested
+            //get number given
+            number = intValueGiven(val);
+            //if number is negative, invalid input
+            if(number <=0) {
+                val = "x";
+            } else {
+                val = "I";
             }
         }
-        exit(1);
+        else if(val.charAt(0) == 'M' || val.charAt(0) == 'm') { //if m input, move requested
+            //get number given
+            number = intValueGiven(val);
+            //if number is negative, invalid input
+            if(number <=0) {
+                val = "x";
+            } else {
+                val = "M";
+            }
+        }
+
+        //cases for every possible commands
+        //make sure system is initialized before accepting any other command
+        switch (val) {
+            case "i":
+            case "I":
+                initializeSystem(number);
+                break;
+            case "u":
+            case "U":
+                if(initialized) {
+                    penUp();
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "d":
+            case "D":
+                if(initialized) {
+                    penDown();
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "r":
+            case "R":
+                if(initialized) {
+                    turnRight();
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "l":
+            case "L":
+                if(initialized) {
+                    turnLeft();
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "m":
+            case "M":
+                if(initialized) {
+                    moveRobot(number);
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "p":
+            case "P":
+                if(initialized) {
+                    printTable();
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "c":
+            case "C":
+                if(initialized) {
+                    printPosition();
+                }else
+                    System.out.println("Please initialize the system first");
+                break;
+            case "q":
+            case "Q":
+                exit(1);
+                break;
+            case "-1":
+                System.out.println("User selected Nothing");
+                break;
+            default:
+                System.out.println("Invalid entry");
+            }
+        ui();
     }
 
     //get the number entered from the string
