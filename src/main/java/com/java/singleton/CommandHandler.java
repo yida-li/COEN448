@@ -56,7 +56,7 @@ public class CommandHandler {
                 //get number given
                 number = intValueGiven(val);
                 //if number is negative, invalid input
-                if(number <=0) {
+                if((number <= 1) || (number > 100)) {
                     val = "x";
                 } else {
                     val = "I";

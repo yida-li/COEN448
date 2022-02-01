@@ -29,12 +29,12 @@ class CommandHandlerTest {
     }
 
     @Test
-    void ui() {
-
+    void testUi() {
+        //todo
     }
 
     @Test
-    void intValueGiven() {
+    void testIntValueGiven() {
         //gets int value after a letter in a string
         String val = "i10";
         String val1 = "i";
@@ -47,7 +47,7 @@ class CommandHandlerTest {
     }
 
     @Test
-    void removeBlankSpace() {
+    void testRemoveBlankSpace() {
         String val = " I";
         StringBuilder sb = new StringBuilder(val);
 
@@ -55,7 +55,7 @@ class CommandHandlerTest {
     }
 
     @Test
-    void isNumeric() {
+    void testIsNumeric() {
         String numb = "10";
         String notNumb = "A";
         assertAll(() -> assertTrue(commandHandler.isNumeric(numb)),
@@ -63,7 +63,7 @@ class CommandHandlerTest {
     }
 
     @Test
-    void printPosition() {
+    void testPrintPosition() {
         String mes = "Position: " + 0 + ", " + 0 + " - Pen: " + "up" + " - Facing: " + "north";
         String mes2 = "Position: " + 0 + ", " + 0 + " - Pen: " + "down" + " - Facing: " + "north";
         outputStreamCaptor.reset();
@@ -77,7 +77,7 @@ class CommandHandlerTest {
     }
 
     @Test
-    void printTable() {
+    void testPrintTable() {
         //get expected output
         StringBuilder output = new StringBuilder();
 
@@ -105,7 +105,7 @@ class CommandHandlerTest {
     }
 
     @Test
-    void moveRobot() {
+    void testMoveRobot() {
         //todo
     }
 
@@ -135,19 +135,19 @@ class CommandHandlerTest {
     }
 
     @Test
-    void penDown() {
+    void testPenDown() {
         commandHandler.penDown();
         assertTrue(commandHandler.robot.getPenState());
     }
 
     @Test
-    void penUp() {
+    void testPenUp() {
         commandHandler.penUp();
         assertFalse(commandHandler.robot.getPenState());
     }
 
     @Test
-    void initializeSystem() {
+    void testInitializeSystem() {
         commandHandler.initializeSystem(5);
         assertTrue(commandHandler.initialized);
 
