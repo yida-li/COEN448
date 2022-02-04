@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -32,6 +33,7 @@ class CommandHandlerTest {
 
     @Test
     void ui() {
+        //todo
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream("i 10".getBytes()));
 
@@ -131,9 +133,26 @@ class CommandHandlerTest {
 
     @Test
     void moveRobot() {
-        //todo
+        Point coo1 = commandHandler.robot.getCoordinates();
 
+        coo1.move(coo1.x+1,coo1.y);
+        commandHandler.moveRobot(1);
+        assertEquals(coo1, commandHandler.robot.getCoordinates());
 
+        commandHandler.turnRight();
+        coo1.move(coo1.x,coo1.y+1);
+        commandHandler.moveRobot(1);
+        assertEquals(coo1, commandHandler.robot.getCoordinates());
+
+        commandHandler.turnRight();
+        coo1.move(coo1.x-1,coo1.y);
+        commandHandler.moveRobot(1);
+        assertEquals(coo1, commandHandler.robot.getCoordinates());
+
+        commandHandler.turnRight();
+        coo1.move(coo1.x,coo1.y-1);
+        commandHandler.moveRobot(1);
+        assertEquals(coo1, commandHandler.robot.getCoordinates());
     }
 
     @Test
