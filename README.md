@@ -5,6 +5,10 @@ Robot Motion Project - Winter 2022
 ![workflow](https://github.com/YIDA-LI/coen448/actions/workflows/maven.yml/badge.svg)
 ![event-workflow](https://github.com/YIDA-LI/coen448/actions/workflows/maven.yml/badge.svg?event=push)
 
+## Webpage
+
+<span class="edit-link"><a href="https://yida-li.github.io/COEN448/" target="_blank"><i class="fa fa-github"></i>Task 2 Coverage</a></span>
+
 ## Objective
 Test the practical use of the software testing techniques covered in the course.
 
@@ -31,3 +35,4 @@ We will construct a basic program for a robot walking around a room under the co
   - Trello
   - Github
   - Google Drive
+
