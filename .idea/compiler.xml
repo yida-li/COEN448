@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="COEN448" />
+        <module name="coen448" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="COEN448" target="1.8" />
+      <module name="coen448" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

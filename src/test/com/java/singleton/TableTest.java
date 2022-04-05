@@ -74,6 +74,7 @@ class TableTest {
         StringBuilder output = new StringBuilder();
 
         int[][] tableArray = table.getTableArray();
+        tableArray[5][5] = 1;
 
         for (int row = tableArray.length-1; row >= 0; row--) {
             output.append(row + "| ");
@@ -96,7 +97,9 @@ class TableTest {
             output.append(col + " ");
         }
 
-        Point temp=new Point(0,0); // temporary added this for the writeTable method in table class
+        Point point = new Point(5,5);
+        table.writeTable(point,true);
+        Point temp=new Point(0,0); // location of pen
         table.printTable(temp,false); // initially printing table with pen up at location 0,0
         //table.printTable();
         assertEquals(output.toString(), outputStreamCaptor.toString());

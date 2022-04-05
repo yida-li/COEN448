@@ -1,6 +1,7 @@
 package com.java.singleton;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -8,9 +9,10 @@ import static java.lang.System.exit;
 public class CommandHandler {
 
     private static final Scanner sc = new Scanner(System.in);
-    private static Table table;
+    public static Table table;
     public static Singleton robot;
     public static boolean initialized = false;
+    static ArrayList<String> commands = new ArrayList<String>();
 
     //constructor, runs the UI
     public CommandHandler(){}
@@ -19,25 +21,30 @@ public class CommandHandler {
      * UI of the client
      * displays commands to server and handles them
      */
-    public static void ui(){
+    public static void ui() {
         String val = "";    //input from user
 
         //ui
         System.out.println("\nEnter 'Q' to close program");
         System.out.println("Possible commands:\n" +
-                "I n: Initialize the system\n"+
-                "U: Pen Up\n"+
-                "D: Pen Down\n"+
-                "R: Turn Right\n"+
-                "L: Turn Left\n"+
+                "I n: Initialize the system\n" +
+                "U: Pen Up\n" +
+                "D: Pen Down\n" +
+                "R: Turn Right\n" +
+                "L: Turn Left\n" +
                 "M s: Move forward s spaces\n" +
-                "P: Print the table\n"+
-                "C: Print current position of the pen\n"+
+                "P: Print the table\n" +
+                "C: Print current position of the pen\n" +
+                "H: Replay all the commands entered\n" +
                 "Q: Stop the program\n");
 
         System.out.println("Enter the wanted command:");
         val = sc.nextLine();
 
+        handleInput(val,false);
+    }
+
+    public static void handleInput(String val, boolean history){
         if (val.isEmpty()) {
             val = "-1";
         }
@@ -77,11 +84,15 @@ public class CommandHandler {
             case "i":
             case "I":
                 initializeSystem(number);
+                if(!history)
+                    commands.add("i" + number);
                 break;
             case "u":
             case "U":
                 if(initialized) {
                     penUp();
+                    if(!history)
+                        commands.add("u");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -89,6 +100,8 @@ public class CommandHandler {
             case "D":
                 if(initialized) {
                     penDown();
+                    if(!history)
+                        commands.add("d");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -96,6 +109,8 @@ public class CommandHandler {
             case "R":
                 if(initialized) {
                     turnRight();
+                    if(!history)
+                        commands.add("r");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -103,6 +118,8 @@ public class CommandHandler {
             case "L":
                 if(initialized) {
                     turnLeft();
+                    if(!history)
+                        commands.add("l");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -110,6 +127,8 @@ public class CommandHandler {
             case "M":
                 if(initialized) {
                     moveRobot(number);
+                    if(!history)
+                        commands.add("m"+number);
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -117,6 +136,8 @@ public class CommandHandler {
             case "P":
                 if(initialized) {
                     printTable();
+                    if(!history)
+                        commands.add("p");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -124,8 +145,19 @@ public class CommandHandler {
             case "C":
                 if(initialized) {
                     printPosition();
+                    if(!history)
+                        commands.add("c");
                 }else
                     System.out.println("Please initialize the system first");
+                break;
+            case "h":
+            case "H":
+                //run history of commands
+                if (!commands.isEmpty()){
+                    runHistory();
+                }else
+                    System.out.println("Please run a few commands before.");
+
                 break;
             case "q":
             case "Q":
@@ -135,9 +167,11 @@ public class CommandHandler {
                 System.out.println("User selected Nothing");
                 break;
             default:
-                System.out.println("Invalid entry");
+                System.out.println("Invalid entry: " + val);
             }
-        ui();
+        if(!history){
+            ui();
+        }
     }
 
     //get the number entered from the string
@@ -180,6 +214,15 @@ public class CommandHandler {
         return str != null && str.matches("[0-9.]+");
     }
 
+    //Replay all the commands entered by the user as a history
+    public static void runHistory(){
+        for (String str : commands) {
+            System.out.println("\nHistory command:" + str + "\n");
+            handleInput(str,true);
+        }
+
+        commands.clear();
+    }
     //print the position of the robot
     public static void printPosition() {
         //System.out.println("Printing position...");

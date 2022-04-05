@@ -37,7 +37,7 @@ class CommandHandlerTest {
         InputStream stdin = System.in;
         System.setIn(new ByteArrayInputStream("i 10".getBytes()));
 
-        //commandHandler.ui();
+        commandHandler.ui();
 
         //System.setIn(stdin);
     }
@@ -104,6 +104,8 @@ class CommandHandlerTest {
             Arrays.fill(ints, 0);
         }
 
+        tableArray[5][5]=1;
+
         //get initial table
         for (int row = tableArray.length-1; row >= 0; row--) {
             output.append(row + "| ");
@@ -127,6 +129,8 @@ class CommandHandlerTest {
         }
 
         outputStreamCaptor.reset();
+        Point point = new Point(5,5);
+        commandHandler.table.writeTable(point,true);
         commandHandler.printTable();
         assertEquals(output.toString(), outputStreamCaptor.toString());
     }
