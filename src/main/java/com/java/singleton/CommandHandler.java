@@ -25,20 +25,7 @@ public class CommandHandler {
         String val = "";    //input from user
 
         //ui
-        System.out.println("\nEnter 'Q' to close program");
-        System.out.println("Possible commands:\n" +
-                "I n: Initialize the system\n" +
-                "U: Pen Up\n" +
-                "D: Pen Down\n" +
-                "R: Turn Right\n" +
-                "L: Turn Left\n" +
-                "M s: Move forward s spaces\n" +
-                "P: Print the table\n" +
-                "C: Print current position of the pen\n" +
-                "H: Replay all the commands entered\n" +
-                "Q: Stop the program\n");
-
-        System.out.println("Enter the wanted command:");
+        System.out.println("Enter the wanted command: ('menu' for help)");
         val = sc.nextLine();
 
         handleInput(val,false);
@@ -72,7 +59,9 @@ public class CommandHandler {
             number = intValueGiven(val);
             //if number is negative, invalid input
             if(number <=0) {
-                val = "x";
+                if(val.equals("MENU") || val.equals("menu")){}
+                else
+                    val = "x";
             } else {
                 val = "M";
             }
@@ -81,6 +70,21 @@ public class CommandHandler {
         //cases for every possible commands
         //make sure system is initialized before accepting any other command
         switch (val) {
+            case "menu":
+            case "MENU":
+                System.out.println("\nEnter 'Q' to close program");
+                System.out.println("Possible commands:\n" +
+                        "I n: Initialize the system\n" +
+                        "U: Pen Up\n" +
+                        "D: Pen Down\n" +
+                        "R: Turn Right\n" +
+                        "L: Turn Left\n" +
+                        "M s: Move forward s spaces\n" +
+                        "P: Print the table\n" +
+                        "C: Print current position of the pen\n" +
+                        "H: Replay all the commands entered\n" +
+                        "Q: Stop the program\n");
+                break;
             case "i":
             case "I":
                 initializeSystem(number);
