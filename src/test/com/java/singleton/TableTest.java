@@ -68,8 +68,7 @@ class TableTest {
         assertTrue(Arrays.deepEquals(tableArray, table.getTableArray()));
     }
 
-    @Test
-    void testPrintTable() {
+    String table(boolean flag){
         //get expected output
         StringBuilder output = new StringBuilder();
 
@@ -80,7 +79,10 @@ class TableTest {
             output.append(row + "| ");
             for (int col = 0; col < tableArray[row].length; col++) {
                 if (row == 0 && col == 0)
-                    output.append("↑ ");
+                    if(flag)
+                        output.append("↑ ");
+                    else
+                        output.append("↓ ");
                 else if (tableArray[row][col] == 0)
                     output.append("  ");
                 else
@@ -97,11 +99,23 @@ class TableTest {
             output.append(col + " ");
         }
 
+        return output.toString();
+    }
+
+    @Test
+    void testPrintTable() {
+
+        String output = table(true);
+
         Point point = new Point(5,5);
         table.writeTable(point,true);
         Point temp=new Point(0,0); // location of pen
         table.printTable(temp,false); // initially printing table with pen up at location 0,0
-        //table.printTable();
-        assertEquals(output.toString(), outputStreamCaptor.toString());
+        assertEquals(output, outputStreamCaptor.toString());
+
+        outputStreamCaptor.reset();
+        output = table(false);
+        table.printTable(temp,true);
+        assertEquals(output, outputStreamCaptor.toString());
     }
 }

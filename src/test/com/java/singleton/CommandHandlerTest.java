@@ -32,14 +32,170 @@ class CommandHandlerTest {
     }
 
     @Test
-    void ui() {
-        //todo
-        InputStream stdin = System.in;
-        System.setIn(new ByteArrayInputStream("i 10".getBytes()));
+    void handleInput() {
+        /*
+            [U|u] Pen up
+            [D|d] Pen down
+            [R|r] Turn right
+            [L|l] Turn left
+            [M s|m s] Move forward s spaces (s is a non-negative integer)
+            [P|p] Print the N by N array and display the indices
+            [C|c] Print current position of the pen and whether it is up or down and its facing direction
+            [Q|q] Stop the program
+            [I n|i n] Initialize the system: The values of the array floor are zeros and the robot is back to [0, 0],
+                        pen up and facing north. n size of the array, an integer greater than zero
+            [H|h] Replay all the commands entered by the user as a history
+         */
 
-        commandHandler.ui();
+        String val1 = "u";
+        String val2 = "U";
+        String val3 = "d";
+        String val4 = "D";
+        String val5 = "r";
+        String val6 = "R";
+        String val7 = "l";
+        String val8 = "L";
+        String val9 = "M 2";
+        String val10 = "m 2";
+        String val11 = "P";
+        String val12 = "p";
+        String val13 = "C";
+        String val14 = "c";
+        String val15 = "Q";
+        String val16 = "q";
+        String val17 = "I 10";
+        String val18 = "i 10";
+        String val19 = "H";
+        String val20 = "h";
+        String val21 = "";
+        String val22 = "i";
+        String val23 = "m";
+        String val24 = "i 1";
+        String val25 = "menu";
+        String val26 = "m 0";
+        String val27 = "m 10";
 
-        //System.setIn(stdin);
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val11,true);
+        assertEquals(table(false), outputStreamCaptor.toString());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val12,true);
+        assertEquals(table(false), outputStreamCaptor.toString());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val1,true);
+        assertEquals("Pen direction already up", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val2,true);
+        assertEquals("Pen direction already up", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val3,true);
+        assertEquals("Pen direction going down...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val4,true);
+        assertEquals("Pen direction already down", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val5,true);
+        assertEquals("Turning right...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val6,true);
+        assertEquals("Turning right...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val7,true);
+        assertEquals("Turning left...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val8,true);
+        assertEquals("Turning left...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val9,true);
+        assertEquals("Moving...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val10,true);
+        assertEquals("Moving...", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        String output = "Position: 0, 4 - Pen: down - Facing: north";
+        CommandHandler.handleInput(val13,true);
+        assertEquals(output, outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val14,true);
+        assertEquals(output, outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        assertTrue(CommandHandler.handleInput(val15,true));
+
+        outputStreamCaptor.reset();
+        assertTrue(CommandHandler.handleInput(val16,true));
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val17,true);
+        assertEquals("Initializing with size: 10", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val18,true);
+        assertEquals("Initializing with size: 10", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val19,true);
+        assertTrue(commandHandler.commands.isEmpty());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val20,true);
+        assertTrue(commandHandler.commands.isEmpty());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val21,true);
+        assertEquals("User selected Nothing", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val22,true);
+        assertEquals("Invalid entry", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val23,true);
+        assertEquals("Invalid entry", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val24,true);
+        assertEquals("Invalid entry", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+
+        output = "Enter 'Q' to close program\n"
+                 +"Possible commands:\n" +
+                "I n: Initialize the system\n" +
+                "U: Pen Up\n" +
+                "D: Pen Down\n" +
+                "R: Turn Right\n" +
+                "L: Turn Left\n" +
+                "M s: Move forward s spaces\n" +
+                "P: Print the table\n" +
+                "C: Print current position of the pen\n" +
+                "H: Replay all the commands entered\n" +
+                "Q: Stop the program";
+
+        CommandHandler.handleInput(val25,true);
+        assertEquals(output.replaceAll("\n", "").replaceAll("\r", ""), outputStreamCaptor.toString().trim().replaceAll("\n", "").replaceAll("\r", ""));
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val26,true);
+        assertEquals("Invalid entry", outputStreamCaptor.toString().trim());
+
+        outputStreamCaptor.reset();
+        CommandHandler.handleInput(val27,true);
+        assertEquals("Can not move " + 10 + " in the " + commandHandler.robot.getDirection() + " direction, the robot will fall off the table", outputStreamCaptor.toString().trim());
+
     }
 
     @Test
@@ -90,8 +246,7 @@ class CommandHandlerTest {
 
     }
 
-    @Test
-    void printTable() {
+    String table(boolean flag){
         //get expected output
         StringBuilder output = new StringBuilder();
 
@@ -104,7 +259,9 @@ class CommandHandlerTest {
             Arrays.fill(ints, 0);
         }
 
-        tableArray[5][5]=1;
+        if(flag){
+            tableArray[5][5]=1;
+        }
 
         //get initial table
         for (int row = tableArray.length-1; row >= 0; row--) {
@@ -127,12 +284,18 @@ class CommandHandlerTest {
         for (int col = 0; col < tableArray.length; col++) {
             output.append(col + " ");
         }
+        return output.toString();
+    }
+    @Test
+    void printTable() {
+
+        String output  = table(true);
 
         outputStreamCaptor.reset();
         Point point = new Point(5,5);
         commandHandler.table.writeTable(point,true);
         commandHandler.printTable();
-        assertEquals(output.toString(), outputStreamCaptor.toString());
+        assertEquals(output, outputStreamCaptor.toString());
     }
 
     @Test
@@ -219,5 +382,17 @@ class CommandHandlerTest {
         outputStreamCaptor.reset();
         commandHandler.initializeSystem(1);
         assertEquals("Please choose a size bigger or equal to 2", outputStreamCaptor.toString().trim());
+    }
+
+    @Test
+    void runHistory(){
+        commandHandler.commands.add("i10");
+        commandHandler.commands.add("m5");
+        commandHandler.commands.add("r");
+        commandHandler.commands.add("d");
+        commandHandler.commands.add("m5");
+
+        commandHandler.runHistory();
+        assertTrue(commandHandler.commands.isEmpty());
     }
 }

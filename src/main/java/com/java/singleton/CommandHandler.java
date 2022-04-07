@@ -12,7 +12,8 @@ public class CommandHandler {
     public static Table table;
     public static Singleton robot;
     public static boolean initialized = false;
-    static ArrayList<String> commands = new ArrayList<String>();
+    public static ArrayList<String> commands = new ArrayList<String>();
+    public static boolean flag = false;
 
     //constructor, runs the UI
     public CommandHandler(){}
@@ -28,10 +29,13 @@ public class CommandHandler {
         System.out.println("Enter the wanted command: ('menu' for help)");
         val = sc.nextLine();
 
-        handleInput(val,false);
+        if(handleInput(val,false)){
+            //end
+            System.out.println("The End");
+        }
     }
 
-    public static void handleInput(String val, boolean history){
+    public static boolean handleInput(String val, boolean history){
         if (val.isEmpty()) {
             val = "-1";
         }
@@ -88,15 +92,11 @@ public class CommandHandler {
             case "i":
             case "I":
                 initializeSystem(number);
-                if(!history)
-                    commands.add("i" + number);
                 break;
             case "u":
             case "U":
                 if(initialized) {
                     penUp();
-                    if(!history)
-                        commands.add("u");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -104,8 +104,6 @@ public class CommandHandler {
             case "D":
                 if(initialized) {
                     penDown();
-                    if(!history)
-                        commands.add("d");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -113,8 +111,6 @@ public class CommandHandler {
             case "R":
                 if(initialized) {
                     turnRight();
-                    if(!history)
-                        commands.add("r");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -122,8 +118,6 @@ public class CommandHandler {
             case "L":
                 if(initialized) {
                     turnLeft();
-                    if(!history)
-                        commands.add("l");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -131,8 +125,6 @@ public class CommandHandler {
             case "M":
                 if(initialized) {
                     moveRobot(number);
-                    if(!history)
-                        commands.add("m"+number);
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -140,8 +132,6 @@ public class CommandHandler {
             case "P":
                 if(initialized) {
                     printTable();
-                    if(!history)
-                        commands.add("p");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -149,8 +139,6 @@ public class CommandHandler {
             case "C":
                 if(initialized) {
                     printPosition();
-                    if(!history)
-                        commands.add("c");
                 }else
                     System.out.println("Please initialize the system first");
                 break;
@@ -165,17 +153,18 @@ public class CommandHandler {
                 break;
             case "q":
             case "Q":
-                exit(1);
-                break;
+                return true;
+                // exit(1);
             case "-1":
                 System.out.println("User selected Nothing");
                 break;
             default:
-                System.out.println("Invalid entry: " + val);
+                System.out.println("Invalid entry");
             }
         if(!history){
             ui();
         }
+        return false;
     }
 
     //get the number entered from the string
@@ -220,15 +209,20 @@ public class CommandHandler {
 
     //Replay all the commands entered by the user as a history
     public static void runHistory(){
+        flag = true;
         for (String str : commands) {
             System.out.println("\nHistory command:" + str + "\n");
             handleInput(str,true);
         }
 
         commands.clear();
+        flag = false;
     }
     //print the position of the robot
     public static void printPosition() {
+        if(!flag)
+            commands.add("c");
+
         //System.out.println("Printing position...");
         //get coordinates
         Point position = robot.getCoordinates();
@@ -251,15 +245,20 @@ public class CommandHandler {
 
     //print the table along with the coordinates of the robot and the orientation of the pen
     public static void printTable() {
+        if(!flag)
+            commands.add("p");
         //System.out.println("Printing table...");
         table.printTable(robot.getCoordinates(), robot.getPenState());
     }
 
     //move the robot
     public static void moveRobot(int steps) {
+        if(!flag)
+            commands.add("m " + steps);
+
         String direction = robot.getDirection();
         Point position = robot.getCoordinates();
-        Point nextPoint;
+        Point nextPoint = new Point(-1, -1);
         int x = position.x;
         int y = position.y;
         boolean onTable;
@@ -277,9 +276,6 @@ public class CommandHandler {
                 break;
             case "east":
                 nextPoint = new Point(x, y + steps);
-                break;
-            default:
-                nextPoint = new Point(-1, -1);
                 break;
         }
 
@@ -307,6 +303,8 @@ public class CommandHandler {
 
     //turn the robot left
     public static void turnLeft() {
+        if(!flag)
+            commands.add("l");
         System.out.println("Turning left...");
         String currentDirection = robot.getDirection();
 
@@ -329,6 +327,9 @@ public class CommandHandler {
 
     //turn the robot right
     public static void turnRight() {
+        if(!flag)
+            commands.add("r");
+
         System.out.println("Turning right...");
         String currentDirection = robot.getDirection();
 
@@ -351,6 +352,9 @@ public class CommandHandler {
 
     //make the pen face down
     public static void penDown() {
+        if(!flag)
+            commands.add("d");
+
         if(robot.getPenState()){
             System.out.println("Pen direction already down");
         } else{
@@ -362,6 +366,9 @@ public class CommandHandler {
 
     //make the pen face up
     public static void penUp() {
+        if(!flag)
+            commands.add("u");
+
         if(!robot.getPenState()){
             System.out.println("Pen direction already up");
         } else{
@@ -375,6 +382,9 @@ public class CommandHandler {
     //reset robot
     //set initialized boolean
     public static void initializeSystem(int size) {
+        if(!flag)
+            commands.add("i " + size);
+
         if(size < 2){
             System.out.println("Please choose a size bigger or equal to 2");
         } else{
