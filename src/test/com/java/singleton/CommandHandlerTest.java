@@ -384,6 +384,9 @@ class CommandHandlerTest {
         assertEquals("Please choose a size bigger or equal to 2", outputStreamCaptor.toString().trim());
     }
 
+
+
+    // Test case 11
     @Test
     void runHistory(){
         commandHandler.commands.add("i10");
