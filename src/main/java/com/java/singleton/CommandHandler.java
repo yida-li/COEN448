@@ -39,7 +39,11 @@ public class CommandHandler {
         if (val.isEmpty()) {
             val = "-1";
         }
-
+        //Longest command is at capped at 5 string char
+        //For ex: "I 100"
+        if (val.length()>6) {
+            val = "-1";
+        }
         //number given for initialization and move spaces
         int number = 0;
 
